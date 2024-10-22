@@ -3,7 +3,7 @@ from discord import app_commands
 
 token = open("TicToken.txt", "r") #opens bot auth token
 custom_status = "/play"
-guild_id = 677635314566692865 #server id where bot is active
+guild_id = open("TicId.txt", "r") #server id where bot is active
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -98,11 +98,11 @@ class Buttons(discord.ui.View): #creates subclass of View() to contain button in
 
 @client.event
 async def on_ready():
-    await tree.sync(guild=discord.Object(id=guild_id))
+    await tree.sync(guild=discord.Object(id=guild_id.read()))
     await client.change_presence(activity=discord.Game(custom_status))
     print("ready")
 
-@tree.command(name= "play", description="Play a game of tic-tac-toe", guild=discord.Object(id=guild_id))
+@tree.command(name= "play", description="Play a game of tic-tac-toe", guild=discord.Object(id=guild_id.read()))
 async def game(interaction):
     await interaction.response.send_message("X's turn", ephemeral=True, view=Buttons())
 
